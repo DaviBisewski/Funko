@@ -20,6 +20,7 @@ header nav {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+
 header nav .nav img {
   width: 120px;
 }
@@ -65,6 +66,7 @@ main .main {
   gap: 60px;
   padding: 50px;
   background: #fff;
+
   margin: 40px auto;
   max-width: 100%;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);

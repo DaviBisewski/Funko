@@ -22,7 +22,7 @@
           <img src="assets/img/funko-seeklogo.png" alt="Titulo">
         </div>
         <div class="nav">
-          <img src="#" alt="Carrinho">
+          <img src="assets/img/carrinho.png" alt="Carrinho">
         </div>
       </nav>
     </header>
@@ -35,7 +35,7 @@
     <div class="funkos">
       <ul class="carousel">
         <li v-for="funko in funkos" :key="funko.id">
-          <img :src="funko.image" @mouseover="changeImage(funko.image, funko.name, funko.description)" :alt="funko.name">
+          <img :src="funko.image" @mouseover="changeImage(funko.image, funko.name,  funko.description, funko.price)" :alt="funko.name">
         </li>
       </ul>
     </div>
@@ -48,13 +48,18 @@
         <div class="info">
           <h1>{{ Funko.name }}</h1>
           <p>{{ Funko.description }}</p>
-          <p class="price">R$ {{ 169.90.toFixed(2) }}</p>
-          <button class="buy-button">COMPRAR</button>
+          <p class="price">R${{ Funko.price }}</p>
+          <p class="installment">Ou por R${{Funko.installment}} em 5x sem juros</p>
+          <p>Estoque: {{ inStock }} unidades</p>
+          <p>Quantidade no carrinho: {{ cart }}</p>
+          <p class="price" v-if="cart > 0">Total: R${{ totalPrice(Funko.price, cart) }}</p>
+          <p class="installment" v-if="cart > 0">Total em 5x: R${{ totalPrice(Funko.installment, cart) }}</p>
           <div class="quantity-selector">
-            <button>-</button>
-            <span>1</span>
-            <button>+</button>
+            <button @click="decreaseQuantity">-</button>
+            <p>{{ cart }}</p>
+            <button @click="increaseQuantity">+</button>
           </div>
+          <button class="buy-button" @click="buyProduct">Comprar</button>
         </div>
       </div>
     </main>
