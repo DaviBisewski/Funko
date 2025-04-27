@@ -229,8 +229,8 @@
             <p class="installment">Ou por R${{Funko.installment}} em 5x sem juros</p>
             <p>Estoque: {{ inStock }} unidades</p>
             <p>Quantidade no carrinho: {{ cart }}</p>
-            <p v-if="cart > 0">Total: R${{ totalPrice(Funko.price, cart) }}</p>
-            <p v-if="cart > 0">Total em 5x: R${{ totalPrice(Funko.installment, cart) }}</p>
+            <p class="price" v-if="cart > 0">Total: R${{ totalPrice(Funko.price, cart) }}</p>
+            <p class="installment" v-if="cart > 0">Total em 5x: R${{ totalPrice(Funko.installment, cart) }}</p>
             <div class="quantity-selector">
               <button @click="decreaseQuantity">-</button>
               <p>{{ cart }}</p>
