@@ -1,9 +1,10 @@
-const { createApp, ref, onMounted, nextTick } = Vue;
+const { createApp, ref, onMounted } = Vue;
 
 createApp({
   setup() {
-
     const cart = ref(0);
+    const cartItems = ref([]);
+    const showCart = ref(false);
 
     const increaseQuantity = () => {
       if (cart.value < Funko.value.inStock) {
@@ -19,18 +20,35 @@ createApp({
       }
     };
 
-    const buyProduct = async () => {
+    const buyProduct = () => {
       if (cart.value > 0) {
+        // Atualizar o estoque
         Funko.value.inStock -= cart.value;
-        alert(`Você comprou ${cart.value} unidade(s) de ${Funko.value.name}!`);
+
+        // Verificar se o item já está no carrinho
+        const existingItem = cartItems.value.find(item => item.id === Funko.value.id);
+        if (existingItem) {
+          existingItem.quantity += cart.value;
+        } else {
+          cartItems.value.push({
+            id: Funko.value.id,
+            name: Funko.value.name,
+            price: Funko.value.price,
+            quantity: cart.value,
+            image: Funko.value.image,
+          });
+        }
+
+        alert(`Você adicionou ${cart.value} unidade(s) de ${Funko.value.name} ao carrinho!`);
         cart.value = 0;
-        await nextTick(); // Força o Vue a atualizar o DOM depois da mudança
       } else {
         alert("Seu carrinho está vazio!");
       }
     };
-    
-    
+
+    const toggleCart = () => {
+      showCart.value = !showCart.value; // Alterna entre abrir e fechar o carrinho
+    };
 
     const totalPrice = (price, quantity) => {
       return (parseFloat(price.replace(",", ".")) * quantity).toFixed(2).replace(".", ",");
@@ -39,8 +57,8 @@ createApp({
     const changeImage = (selectedFunko) => {
       Funko.value = selectedFunko;
     };
-    
-    
+
+
     const funkos = [
       {
         id: 1,
@@ -176,15 +194,18 @@ createApp({
       });
     });
 
-    return {
+   return {
       funkos,
       Funko,
       cart,
+      cartItems,
+      showCart,
       increaseQuantity,
       decreaseQuantity,
       buyProduct,
+      toggleCart,
       totalPrice,
       changeImage,
-    };    
+    };
   },
 }).mount("#app");
