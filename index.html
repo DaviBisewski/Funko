@@ -7,35 +7,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <link rel="stylesheet" href="assets/main.js">
+  <link rel="stylesheet" href="assets/main.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-  <link rel="stylesheet" href="assets/main.css">
- 
-
 </head>
 <body>
   <div id="app">
     <header>
       <nav>
-        <div class="nav">
-          <img src="assets/img/funko-seeklogo.png" alt="Titulo">
+        <div class="nav-logo">
+          <img src="assets/img/funko-seeklogo.png" alt="Funko Logo">
         </div>
-        <div class="nav">
+        <div class="nav-cart">
           <img src="assets/img/carrinho.png" alt="Carrinho">
         </div>
       </nav>
     </header>
 
     <div class="banner-container">
-        <img src="assets/img/funkopopbanner.webp" alt="Banner" class="banner-image">
-      </div>
-  
+      <img src="assets/img/funkopopbanner.webp" alt="Banner" class="banner-image">
+    </div>
 
     <div class="funkos">
       <ul class="carousel">
         <li v-for="funko in funkos" :key="funko.id">
-          <img :src="funko.image" @mouseover="changeImage(funko.image, funko.name,  funko.description, funko.price)" :alt="funko.name">
+          <img :src="funko.image" @mouseover="changeImage(funko.image, funko.name, funko.description, funko.price)" :alt="funko.name">
         </li>
       </ul>
     </div>
@@ -70,6 +66,7 @@
       <p>&copy; 2025 Funko Store. Todos os direitos reservados.</p>
     </footer>
   </div>
+
+  <script src="assets/main.js"></script>
 </body>
-<script src="assets/main.js"></script>
 </html>
