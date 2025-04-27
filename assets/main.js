@@ -1,12 +1,12 @@
-const { createApp, ref, onMounted } = Vue;
+const { createApp, ref, onMounted, nextTick } = Vue;
 
 createApp({
   setup() {
-    const inStock = ref(10);
+
     const cart = ref(0);
 
     const increaseQuantity = () => {
-      if (cart.value < inStock.value) {
+      if (cart.value < Funko.value.inStock) {
         cart.value += 1;
       } else {
         alert("Produto fora de estoque!");
@@ -19,30 +19,28 @@ createApp({
       }
     };
 
-    const buyProduct = () => {
+    const buyProduct = async () => {
       if (cart.value > 0) {
-        inStock.value -= cart.value;
-        alert(
-          `Você comprou ${cart.value} unidade(s) de ${Funko.value.name}!`
-        );
+        Funko.value.inStock -= cart.value;
+        alert(`Você comprou ${cart.value} unidade(s) de ${Funko.value.name}!`);
         cart.value = 0;
+        await nextTick(); // Força o Vue a atualizar o DOM depois da mudança
       } else {
         alert("Seu carrinho está vazio!");
       }
     };
+    
+    
 
     const totalPrice = (price, quantity) => {
       return (parseFloat(price.replace(",", ".")) * quantity).toFixed(2).replace(".", ",");
     };
 
-    const changeImage = (funkoImage, funkoName, funkoDescription, funkoPrice, FunkoInstallment) => {
-      Funko.value.image = funkoImage;
-      Funko.value.name = funkoName;
-      Funko.value.description = funkoDescription;
-      Funko.value.price = funkoPrice;
-      Funko.value.installment = FunkoInstallment;
+    const changeImage = (selectedFunko) => {
+      Funko.value = selectedFunko;
     };
-
+    
+    
     const funkos = [
       {
         id: 1,
@@ -52,6 +50,7 @@ createApp({
         installment: (49.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Aki de Chainsaw Man, com seu visual icônico e expressão de determinação. Ele é um personagem forte, de personalidade séria, mas com um coração bondoso. Seu estilo combina com sua natureza corajosa e obstinada.",
+        inStock: 5,
       },
       {
         id: 2,
@@ -61,6 +60,7 @@ createApp({
         installment: (229.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Denji de Chainsaw Man, com a motosserra e seu estilo irreverente. Denji é um jovem sonhador, tentando levar uma vida melhor, enquanto combate demônios com seu poder transformador. Um Funko que captura sua personalidade ousada e destemida.",
+        inStock: 5,
       },
       {
         id: 3,
@@ -70,6 +70,7 @@ createApp({
         installment: (89.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Dexter, o cientista mirim de Dexter's Laboratory, com seu traje clássico de laboratório. Com sua inteligência fora do comum, Dexter adora inventar, mas também acaba se metendo em muitas confusões devido à sua atitude impulsiva.",
+        inStock: 5,
       },
       {
         id: 4,
@@ -79,6 +80,7 @@ createApp({
         installment: (119.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Freddie Mercury, o lendário cantor do Queen, com sua pose característica. Ele é lembrado como um dos maiores vocalistas da história do rock, e essa figura captura sua energia única no palco e seu estilo inconfundível.",
+        inStock: 5,
       },
       {
         id: 5,
@@ -88,6 +90,7 @@ createApp({
         installment: (109.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Ichigo Kurosaki de Bleach, com sua espada e expressão decidida. Ichigo é um dos maiores heróis dos animes, com uma história de sacrifício e luta contra forças sobrenaturais, e esse Funko reflete sua coragem e determinação.",
+        inStock: 5,
       },
       {
         id: 6,
@@ -97,6 +100,7 @@ createApp({
         installment: (199.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Iron Man (Homem de Ferro), o herói da Marvel com sua armadura vermelha brilhante. Tony Stark, o gênio milionário, torna-se o icônico Iron Man após desenvolver uma armadura poderosa, e esse Funko reflete sua tecnologia avançada e coragem.",
+        inStock: 5,
       },
       {
         id: 7,
@@ -106,6 +110,7 @@ createApp({
         installment: (89.99 / 5).toFixed(2).replace(".", ","),
         description:
           'Louis de Entourage, sempre com sua atitude descontraída e estilo único. Louis é o empresário que gerencia a carreira de seu amigo Vince, sempre preocupado com o sucesso dos outros e mantendo seu charme e estilo inconfundíveis.',
+        inStock: 5,
       },
       {
         id: 8,
@@ -115,6 +120,7 @@ createApp({
         installment: (149.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Spider-Man (Homem-Aranha), o herói da Marvel com sua famosa máscara e traje vermelho e azul. Peter Parker usa seus poderes para proteger Nova York e essa figura captura seu equilíbrio entre ser um herói e enfrentar a vida cotidiana.",
+        inStock: 5,
       },
       {
         id: 9,
@@ -124,6 +130,7 @@ createApp({
         installment: (169.99 / 5).toFixed(2).replace(".", ","),
         description:
           "Thanos, o vilão intergaláctico de Marvel, com a Manopla do Infinito. Sua missão de destruir metade da vida no universo com um estalar de dedos tornou-se uma das maiores histórias da cultura pop, e seu Funko captura a gravidade de sua presença.",
+        inStock: 5,
       },
       {
         id: 10,
@@ -131,8 +138,8 @@ createApp({
         image: "assets/img/michael.png",
         price: (599.99).toFixed(2).replace(".", ","),
         installment: (599.99 / 5).toFixed(2).replace(".", ","),
-        description:
-          "Michael Jackson, o Rei do Pop, capturado em uma pose clássica com seu famoso casaco. Conhecido por sua música revolucionária e estilo único, Michael Jackson é uma lenda que continua a influenciar a música e a cultura.",
+        description: "Michael Jackson, o Rei do Pop, capturado em uma pose clássica com seu famoso casaco. Conhecido por sua música revolucionária e estilo único, Michael Jackson é uma lenda que continua a influenciar a música e a cultura.",
+        inStock: 5,
       },
     ];
 
@@ -173,12 +180,11 @@ createApp({
       funkos,
       Funko,
       cart,
-      inStock,
       increaseQuantity,
       decreaseQuantity,
       buyProduct,
       totalPrice,
       changeImage,
-    };
+    };    
   },
 }).mount("#app");

@@ -31,7 +31,8 @@
     <div class="funkos">
       <ul class="carousel">
         <li v-for="funko in funkos" :key="funko.id">
-          <img :src="funko.image" @mouseover="changeImage(funko.image, funko.name, funko.description, funko.price)" :alt="funko.name">
+          <img :src="funko.image" @mouseover="changeImage(funko)" :alt="funko.name">
+
         </li>
       </ul>
     </div>
@@ -46,7 +47,7 @@
           <p>{{ Funko.description }}</p>
           <p class="price">R${{ Funko.price }}</p>
           <p class="installment">Ou por R${{Funko.installment}} em 5x sem juros</p>
-          <p>Estoque: {{ inStock }} unidades</p>
+          <p>Estoque: {{ Funko.inStock }} unidades</p>
           <p>Quantidade no carrinho: {{ cart }}</p>
           <p class="price" v-if="cart > 0">Total: R${{ totalPrice(Funko.price, cart) }}</p>
           <p class="installment" v-if="cart > 0">Total em 5x: R${{ totalPrice(Funko.installment, cart) }}</p>
