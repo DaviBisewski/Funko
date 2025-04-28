@@ -52,9 +52,9 @@
           <p class="price" v-if="cart > 0">Total: R${{ totalPrice(Funko.price, cart) }}</p>
           <p class="installment" v-if="cart > 0">Total em 5x: R${{ totalPrice(Funko.installment, cart) }}</p>
           <div class="quantity-selector">
-            <button @click="decreaseQuantity">-</button>
+            <button :class="{disableButton: Funko.inStock < 1}" :disabled="Funko.inStock < 1" @click="decreaseQuantity">-</button>
             <p>{{ cart }}</p>
-            <button @click="increaseQuantity">+</button>
+            <button :class="{disableButton: Funko.inStock < 1}" :disabled="Funko.inStock < 1" @click="increaseQuantity">+</button>
           </div>
           <button class="buy-button" @click="buyProduct">Comprar</button>
         </div>
@@ -68,7 +68,7 @@
 
     <div v-if="showCart" class="cart-sidebar">
       <div class="cart-header">
-        <h2>Seu Carrinho</h2>
+        <h2>Suas Compras</h2>
         <button @click="toggleCart" class="close-cart">Fechar</button>
       </div>
       <div v-if="cartItems.length > 0" class="cart-content">
@@ -83,7 +83,7 @@
         </div>
       </div>
       <div v-else class="empty-cart">
-        <p>Seu carrinho está vazio!</p>
+        <p>Você ainda não comprou nada!</p>
       </div>
     </div>
   </div>

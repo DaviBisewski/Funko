@@ -165,27 +165,23 @@ createApp({
 
     onMounted(() => {
       $(".carousel").slick({
-        slidesToShow: 5,
+        slidesToShow: 4, // diminui de 5 para 4, fica mais bonito em desktop
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 2000,
-        arrows: false,
-        dots: true,
+        autoplaySpeed: 2500,
+        arrows: true, // Ativar setinhas
+        dots: true, // bolinhas de navegação
+        infinite: true, // loop infinito
+        speed: 500, // velocidade da transição
         responsive: [
           {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 4,
-            },
-          },
-          {
-            breakpoint: 600,
+            breakpoint: 1200,
             settings: {
               slidesToShow: 3,
             },
           },
           {
-            breakpoint: 480,
+            breakpoint: 768,
             settings: {
               slidesToShow: 2,
             },
@@ -193,6 +189,7 @@ createApp({
         ],
       });
     });
+    
 
    return {
       funkos,
